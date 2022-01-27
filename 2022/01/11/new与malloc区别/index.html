@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="new与malloc有什么区别1. 申请的内存所在位置new操作符从自由存储区（free store）上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用fre">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2022/01/11/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="new与malloc有什么区别1. 申请的内存所在位置new操作符从自由存储区（free store）上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用fre">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004300406-962244228.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004332328-1197338727.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119011445828-2003774083.jpg">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119012007484-749179736.jpg">
+<meta property="article:published_time" content="2022-01-11T02:24:21.540Z">
+<meta property="article:modified_time" content="2022-01-11T02:44:54.515Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004300406-962244228.png">
+
+
+<link rel="canonical" href="http://example.com/2022/01/11/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2022/01/11/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/","path":"2022/01/11/new与malloc区别/","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | Hexo</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#new%E4%B8%8Emalloc%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text">new与malloc有什么区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%94%B3%E8%AF%B7%E7%9A%84%E5%86%85%E5%AD%98%E6%89%80%E5%9C%A8%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.1.</span> <span class="nav-text">1. 申请的内存所在位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">2.返回类型安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%A4%B1%E8%B4%A5%E6%97%B6%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">1.3.</span> <span class="nav-text">3.内存分配失败时的返回值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%98%AF%E5%90%A6%E9%9C%80%E8%A6%81%E6%8C%87%E5%AE%9A%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F"><span class="nav-number">1.4.</span> <span class="nav-text">4.是否需要指定内存大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%98%AF%E5%90%A6%E8%B0%83%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0-%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.5.</span> <span class="nav-text">5.是否调用构造函数&#x2F;析构函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%AF%B9%E6%95%B0%E7%BB%84%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">1.6.</span> <span class="nav-text">6.对数组的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-new%E4%B8%8Emalloc%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E7%9B%B8%E4%BA%92%E8%B0%83%E7%94%A8"><span class="nav-number">1.7.</span> <span class="nav-text">7.new与malloc是否可以相互调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E8%A2%AB%E9%87%8D%E8%BD%BD"><span class="nav-number">1.8.</span> <span class="nav-text">8.是否可以被重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E8%83%BD%E5%A4%9F%E7%9B%B4%E8%A7%82%E5%9C%B0%E9%87%8D%E6%96%B0%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98"><span class="nav-number">1.9.</span> <span class="nav-text">9. 能够直观地重新分配内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E5%AE%A2%E6%88%B7%E5%A4%84%E7%90%86%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8D%E8%B6%B3"><span class="nav-number">1.10.</span> <span class="nav-text">10. 客户处理内存分配不足</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/11/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-01-11 10:24:21 / Modified: 10:44:54" itemprop="dateCreated datePublished" datetime="2022-01-11T10:24:21+08:00">2022-01-11</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="new与malloc有什么区别"><a href="#new与malloc有什么区别" class="headerlink" title="new与malloc有什么区别"></a>new与malloc有什么区别</h1><h2 id="1-申请的内存所在位置"><a href="#1-申请的内存所在位置" class="headerlink" title="1. 申请的内存所在位置"></a>1. 申请的内存所在位置</h2><p>new操作符从<strong>自由存储区（free store）</strong>上为对象动态分配内存空间，而malloc函数从<strong>堆</strong>上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用free释放已分配的对应内存。</p>
+<p>那么自由存储区是否能够是堆（问题等价于new是否能在堆上动态分配内存），这取决于operator new 的实现细节。<strong>自由存储区不仅可以是堆，还可以是静态存储区，这都看operator new在哪里为对象分配内存</strong> 。</p>
+<h2 id="2-返回类型安全性"><a href="#2-返回类型安全性" class="headerlink" title="2.返回类型安全性"></a>2.返回类型安全性</h2><p>new操作符内存分配成功时，返回的是对象类型的指针，类型严格与对象匹配，无须进行类型转换，故new是符合<strong>类型安全</strong>性的操作符。而malloc内存分配成功则是返回void * ，需要通过强制类型转换将void*指针转换成我们需要的类型。</p>
+<h2 id="3-内存分配失败时的返回值"><a href="#3-内存分配失败时的返回值" class="headerlink" title="3.内存分配失败时的返回值"></a>3.内存分配失败时的返回值</h2><p>new内存分配失败时，会抛出bac_alloc异常，它<strong>不会返回NULL</strong>；malloc分配内存失败时返回NULL。<br>在使用C语言时，我们习惯在malloc分配内存后判断分配是否成功： </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *a  = (<span class="keyword">int</span> *)<span class="built_in">malloc</span> ( <span class="built_in"><span class="keyword">sizeof</span></span> (<span class="keyword">int</span> ));</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">NULL</span> == a)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从C语言走入C++阵营的新手可能会把这个习惯带入C++：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> * a = <span class="keyword">new</span> <span class="built_in"><span class="keyword">int</span></span>();</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">NULL</span> == a)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;   </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际上这样做<strong>一点意义也没有</strong>，因为new根本不会返回NULL，而且程序能够执行到if语句已经说明内存分配成功了，如果失败早就抛异常了。正确的做法应该是使用异常机制：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> *a = <span class="keyword">new</span> <span class="built_in"><span class="keyword">int</span></span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in"><span class="keyword">catch</span></span> (bad_alloc)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-是否需要指定内存大小"><a href="#4-是否需要指定内存大小" class="headerlink" title="4.是否需要指定内存大小"></a>4.是否需要指定内存大小</h2><p>使用new操作符申请内存分配时无须指定内存块的大小，编译器会根据类型信息自行计算，而malloc则需要显式地指出所需内存的尺寸。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span>...&#125;</span><br><span class="line">A * ptr = <span class="keyword">new</span> A;</span><br><span class="line">A * ptr = (A *)<span class="built_in">malloc</span>(<span class="built_in"><span class="keyword">sizeof</span></span>(A)); <span class="comment">//需要显式指定所需内存大小sizeof(A); </span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-是否调用构造函数-析构函数"><a href="#5-是否调用构造函数-析构函数" class="headerlink" title="5.是否调用构造函数/析构函数"></a>5.是否调用构造函数/析构函数</h2><p>使用new操作符来分配对象内存时会经历三个步骤：</p>
+<ul>
+<li>第一步：调用operator new 函数（对于数组是operator new[]）分配一块足够大的，<strong>原始</strong>的，未命名的内存空间以便存储特定类型的对象。</li>
+<li>第二步：编译器运行相应的<strong>构造函数</strong>以构造对象，并为其传入初值。</li>
+<li>第三部：对象构造完成后，返回一个指向该对象的指针。</li>
+</ul>
+<p>使用delete操作符来释放对象内存时会经历两个步骤：</p>
+<ul>
+<li>第一步：调用对象的析构函数。</li>
+<li>第二步：编译器调用operator delete(或operator delete[])函数释放内存空间。</li>
+</ul>
+<p>总之来说，new/delete会调用对象的构造函数/析构函数以完成对象的构造/析构。而malloc则不会。如果你不嫌啰嗦可以看下我的例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">A</span>() :<span class="built_in">a</span>(<span class="number">1</span>), <span class="built_in">b</span>(<span class="number">1.11</span>)&#123;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	<span class="keyword">double</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	A * ptr = (A*)<span class="built_in">malloc</span>(<span class="built_in"><span class="keyword">sizeof</span></span>(A));</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在return处设置断点，观看ptr所指内存的内容：<br><img src="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004300406-962244228.png" alt="img"></p>
+<p>可以看出A的默认构造函数并没有被调用，因为数据成员a,b的值并没有得到初始化，这也是上面我为什么说使用malloc/free来处理C++的自定义类型不合适，其实不止自定义类型，标准库中凡是需要构造/析构的类型通通不合适。</p>
+<p>而使用new来分配对象时：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    A * ptr = <span class="keyword">new</span> A;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查看程序生成的汇编代码可以发现，A的默认构造函数被调用了：<br><img src="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004332328-1197338727.png" alt="img"></p>
+<h2 id="6-对数组的处理"><a href="#6-对数组的处理" class="headerlink" title="6.对数组的处理"></a>6.对数组的处理</h2><p>C++提供了new[]与delete[]来专门处理数组类型:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A * ptr = <span class="keyword">new</span> A[<span class="number">10</span>];<span class="comment">//分配10个A对象</span></span><br></pre></td></tr></table></figure>
+
+<p>使用new[]分配的内存必须使用delete[]进行释放：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> [] ptr;</span><br></pre></td></tr></table></figure>
+
+<p>new对数组的支持体现在它会分别调用构造函数函数初始化每一个数组元素，释放对象时为每个对象调用析构函数。注意delete[]要与new[]配套使用，不然会找出数组对象部分释放的现象，造成内存泄漏。</p>
+<p>至于malloc，它并知道你在这块内存上要放的数组还是啥别的东西，反正它就给你一块原始的内存，在给你个内存的地址就完事。所以如果要动态分配一个数组的内存，还需要我们手动自定数组的大小：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> * ptr = (<span class="keyword">int</span> *) <span class="built_in">malloc</span>( <span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)* <span class="number">10</span> );<span class="comment">//分配一个10个int元素的数组</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-new与malloc是否可以相互调用"><a href="#7-new与malloc是否可以相互调用" class="headerlink" title="7.new与malloc是否可以相互调用"></a>7.new与malloc是否可以相互调用</h2><p>operator new /operator delete的实现可以基于malloc，而malloc的实现不可以去调用new。下面是编写operator new /operator delete 的一种简单方式，其他版本也与之类似：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> * <span class="keyword">operator</span> <span class="title">new</span> <span class="params">(<span class="keyword">sieze_t</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">void</span> * mem = <span class="built_in">malloc</span>(size)</span><br><span class="line">        <span class="keyword">return</span> mem;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">bad_alloc</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> <span class="keyword">operator</span> <span class="built_in"><span class="keyword">delete</span></span>(<span class="keyword">void</span> *mem) <span class="keyword">noexcept</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">free</span>(mem);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-是否可以被重载"><a href="#8-是否可以被重载" class="headerlink" title="8.是否可以被重载"></a>8.是否可以被重载</h2><p>opeartor new /operator delete可以被重载。标准库是定义了operator new函数和operator delete函数的8个重载版本：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这些版本可能抛出异常</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> * <span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="keyword">size_t</span>)</span></span>;</span><br><span class="line"><span class="keyword">void</span> * <span class="keyword">operator</span> <span class="keyword">new</span>[](<span class="keyword">size_t</span>);</span><br><span class="line"><span class="function"><span class="keyword">void</span> * <span class="keyword">operator</span> <span class="title">delete</span> <span class="params">(<span class="keyword">void</span> * )</span><span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="keyword">void</span> * <span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keyword">void</span> *<span class="number">0</span>）<span class="keyword">noexcept</span>;</span><br><span class="line"><span class="comment">//这些版本承诺不抛出异常</span></span><br><span class="line"><span class="keyword">void</span> * <span class="keyword">operator</span> <span class="built_in"><span class="keyword">new</span></span>(<span class="keyword">size_t</span> ,<span class="keyword">nothrow_t</span>&amp;) <span class="keyword">noexcept</span>;</span><br><span class="line"><span class="keyword">void</span> * <span class="keyword">operator</span> <span class="keyword">new</span>[](<span class="keyword">size_t</span>, <span class="keyword">nothrow_t</span>&amp; );</span><br><span class="line"><span class="keyword">void</span> * <span class="keyword">operator</span> <span class="built_in"><span class="keyword">delete</span></span> (<span class="keyword">void</span> *,<span class="keyword">nothrow_t</span>&amp; )<span class="keyword">noexcept</span>;</span><br><span class="line"><span class="keyword">void</span> * <span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keyword">void</span> *<span class="number">0</span>,<span class="keyword">nothrow_t</span>&amp; ）<span class="keyword">noexcept</span>;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以自定义上面函数版本中的任意一个，前提是自定义版本必须位于全局作用域或者类作用域中。太细节的东西不在这里讲述，总之，我们知道我们有足够的自由去重载operator new /operator delete ,以决定我们的new与delete如何为对象分配内存，如何回收对象。</p>
+<p>而malloc/free并<strong>不允许重载</strong>。</p>
+<h2 id="9-能够直观地重新分配内存"><a href="#9-能够直观地重新分配内存" class="headerlink" title="9. 能够直观地重新分配内存"></a>9. 能够直观地重新分配内存</h2><p>使用malloc分配的内存后，如果在使用过程中发现内存不足，可以使用realloc函数进行内存重新分配实现内存的扩充。realloc先判断当前的指针所指内存是否有足够的连续空间，如果有，原地扩大可分配的内存地址，并且返回原来的地址指针；如果空间不够，先按照新指定的大小分配空间，将原有数据从头到尾拷贝到新分配的内存区域，而后释放原来的内存区域。</p>
+<p>new没有这样直观的配套设施来扩充内存。</p>
+<h2 id="10-客户处理内存分配不足"><a href="#10-客户处理内存分配不足" class="headerlink" title="10. 客户处理内存分配不足"></a>10. 客户处理内存分配不足</h2><p>在operator new抛出异常以反映一个未获得满足的需求之前，它会先调用一个用户指定的错误处理函数，这就是<strong>new-handler</strong>。new_handler是一个指针类型：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> std</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*new_handler)</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>指向了一个没有参数没有返回值的函数,即为错误处理函数。为了指定错误处理函数，客户需要调用set_new_handler，这是一个声明于的一个标准库函数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> std</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">new_handler <span class="title">set_new_handler</span><span class="params">(new_handler p )</span> <span class="title">throw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>set_new_handler的参数为new_handler指针，指向了operator new 无法分配足够内存时该调用的函数。其返回值也是个指针，指向set_new_handler被调用前正在执行（但马上就要发生替换）的那个new_handler函数。</p>
+<p>对于malloc，客户并不能够去编程决定内存不足以分配时要干什么事，只能看着malloc返回NULL。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>将上面所述的10点差别整理成表格：</p>
+<table>
+<thead>
+<tr>
+<th align="center">特征</th>
+<th align="center">new/delete</th>
+<th align="center">malloc/free</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">分配内存的位置</td>
+<td align="center">自由存储区</td>
+<td align="center">堆</td>
+</tr>
+<tr>
+<td align="center">内存分配成功的返回值</td>
+<td align="center">完整类型指针</td>
+<td align="center">void*</td>
+</tr>
+<tr>
+<td align="center">内存分配失败的返回值</td>
+<td align="center">默认抛出异常</td>
+<td align="center">返回NULL</td>
+</tr>
+<tr>
+<td align="center">分配内存的大小</td>
+<td align="center">由编译器根据类型计算得出</td>
+<td align="center">必须显式指定字节数</td>
+</tr>
+<tr>
+<td align="center">处理数组</td>
+<td align="center">有处理数组的new版本new[]</td>
+<td align="center">需要用户计算数组的大小后进行内存分配</td>
+</tr>
+<tr>
+<td align="center">已分配内存的扩充</td>
+<td align="center">无法直观地处理</td>
+<td align="center">使用realloc简单完成</td>
+</tr>
+<tr>
+<td align="center">是否相互调用</td>
+<td align="center">可以，看具体的operator new/delete实现</td>
+<td align="center">不可调用new</td>
+</tr>
+<tr>
+<td align="center">分配内存时内存不足</td>
+<td align="center">客户能够指定处理函数或重新制定分配器</td>
+<td align="center">无法通过用户代码进行处理</td>
+</tr>
+<tr>
+<td align="center">函数重载</td>
+<td align="center">允许</td>
+<td align="center">不允许</td>
+</tr>
+<tr>
+<td align="center">构造函数与析构函数</td>
+<td align="center">调用</td>
+<td align="center">不调用</td>
+</tr>
+</tbody></table>
+<p>malloc给你的就好像一块原始的土地，你要种什么需要自己在土地上来播种<br><img src="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119011445828-2003774083.jpg" alt="img"></p>
+<p>而new帮你划好了田地的分块（数组），帮你播了种（构造函数），还提供其他的设施给你使用:<br><img src="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119012007484-749179736.jpg" alt="img"></p>
+<p>当然，malloc并不是说比不上new，它们各自有适用的地方。在C++这种偏重OOP的语言，使用new/delete自然是更合适的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/27/UFLD%20Custom%20Datasets%E6%A0%87%E6%B3%A8%E8%AE%AD%E7%BB%83/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
