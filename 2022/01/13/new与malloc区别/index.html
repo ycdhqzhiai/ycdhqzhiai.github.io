@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
@@ -18,33 +18,34 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="new与malloc有什么区别1. 申请的内存所在位置new操作符从自由存储区（free store）上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用fre">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2022/01/11/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:title" content="new与malloc">
+<meta property="og:url" content="http://example.com/2022/01/13/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="YC-BLOG">
 <meta property="og:description" content="new与malloc有什么区别1. 申请的内存所在位置new操作符从自由存储区（free store）上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用fre">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004300406-962244228.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004332328-1197338727.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119011445828-2003774083.jpg">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119012007484-749179736.jpg">
-<meta property="article:published_time" content="2022-01-11T02:24:21.540Z">
-<meta property="article:modified_time" content="2022-01-11T02:44:54.515Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:published_time" content="2022-01-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-27T10:07:03.477Z">
+<meta property="article:author" content="yc">
+<meta property="article:tag" content="c++">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004300406-962244228.png">
 
 
-<link rel="canonical" href="http://example.com/2022/01/11/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/">
+<link rel="canonical" href="http://example.com/2022/01/13/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2022/01/11/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/","path":"2022/01/11/new与malloc区别/","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/13/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/","path":"2022/01/13/new与malloc区别/","title":"new与malloc"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title> | Hexo</title>
+<title>new与malloc | YC-BLOG</title>
   
 
 
@@ -63,7 +64,10 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -71,9 +75,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">Hexo</p>
+      <p class="site-title">YC-BLOG</p>
       <i class="logo-line"></i>
     </a>
+      <p class="site-subtitle" itemprop="description">ProjectViwer</p>
   </div>
 
   <div class="site-nav-right">
@@ -84,6 +89,17 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-archive fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+        <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li>
+  </ul>
+</nav>
 
 
 
@@ -102,10 +118,10 @@
     <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
-          Table of Contents
+          文章目录
         </li>
         <li class="sidebar-nav-overview">
-          Overview
+          站点概览
         </li>
       </ul>
 
@@ -118,16 +134,25 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
-  <div class="site-description" itemprop="description"></div>
+  <p class="site-author-name" itemprop="name">yc</p>
+  <div class="site-description" itemprop="description">记录工作</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
           <span class="site-state-item-count">2</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
@@ -144,7 +169,7 @@
     </header>
 
     
-  <div class="back-to-top" role="button" aria-label="Back to top">
+  <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
@@ -164,21 +189,21 @@
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/11/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/13/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="yc">
+      <meta itemprop="description" content="记录工作">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="YC-BLOG">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          new与malloc
         </h1>
 
         <div class="post-meta-container">
@@ -187,10 +212,25 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2022-01-11 10:24:21 / Modified: 10:44:54" itemprop="dateCreated datePublished" datetime="2022-01-11T10:24:21+08:00">2022-01-11</time>
+      <time title="创建时间：2022-01-13 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-13T00:00:00+08:00">2022-01-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-27 18:07:03" itemprop="dateModified" datetime="2022-01-27T18:07:03+08:00">2022-01-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+        </span>
     </span>
 
   
@@ -205,6 +245,8 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="new与malloc有什么区别"><a href="#new与malloc有什么区别" class="headerlink" title="new与malloc有什么区别"></a>new与malloc有什么区别</h1><h2 id="1-申请的内存所在位置"><a href="#1-申请的内存所在位置" class="headerlink" title="1. 申请的内存所在位置"></a>1. 申请的内存所在位置</h2><p>new操作符从<strong>自由存储区（free store）</strong>上为对象动态分配内存空间，而malloc函数从<strong>堆</strong>上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用free释放已分配的对应内存。</p>
 <p>那么自由存储区是否能够是堆（问题等价于new是否能在堆上动态分配内存），这取决于operator new 的实现细节。<strong>自由存储区不仅可以是堆，还可以是静态存储区，这都看operator new在哪里为对象分配内存</strong> 。</p>
+<span id="more"></span>
+
 <h2 id="2-返回类型安全性"><a href="#2-返回类型安全性" class="headerlink" title="2.返回类型安全性"></a>2.返回类型安全性</h2><p>new操作符内存分配成功时，返回的是对象类型的指针，类型严格与对象匹配，无须进行类型转换，故new是符合<strong>类型安全</strong>性的操作符。而malloc内存分配成功则是返回void * ，需要通过强制类型转换将void*指针转换成我们需要的类型。</p>
 <h2 id="3-内存分配失败时的返回值"><a href="#3-内存分配失败时的返回值" class="headerlink" title="3.内存分配失败时的返回值"></a>3.内存分配失败时的返回值</h2><p>new内存分配失败时，会抛出bac_alloc异常，它<strong>不会返回NULL</strong>；malloc分配内存失败时返回NULL。<br>在使用C语言时，我们习惯在malloc分配内存后判断分配是否成功： </p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *a  = (<span class="keyword">int</span> *)<span class="built_in">malloc</span> ( <span class="built_in"><span class="keyword">sizeof</span></span> (<span class="keyword">int</span> ));</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">NULL</span> == a)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -336,6 +378,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c++</a>
+          </div>
 
         
 
@@ -343,8 +388,8 @@
             <div class="post-nav-item">
             </div>
             <div class="post-nav-item">
-                <a href="/2022/01/27/UFLD%20Custom%20Datasets%E6%A0%87%E6%B3%A8%E8%AE%AD%E7%BB%83/" rel="next" title="">
-                   <i class="fa fa-chevron-right"></i>
+                <a href="/2022/01/13/UFLD%20Custom%20Datasets%E6%A0%87%E6%B3%A8%E8%AE%AD%E7%BB%83/" rel="next" title="UFLD车道线检测">
+                  UFLD车道线检测 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -370,9 +415,9 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">yc</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
     </div>
@@ -380,7 +425,7 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 
