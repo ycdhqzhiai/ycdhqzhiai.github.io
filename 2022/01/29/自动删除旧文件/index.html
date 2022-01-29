@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="有时候在做项目时候需要一直保存文件，但是由于内存容量有限，需要及时删除旧文件。以下脚本实现功能：当内存到达一定值时，删除文件时间属性较早的文件。个人完全不会shell脚本编程。都是一点点问度娘的，如有不对之处敬请谅解。 读取指定文件时间属性。1234cd &#x2F;var&#x2F;www&#x2F;Public&#x2F;ParamsSet&#x2F;creat_time&#x3D;&#96;stat -c %Y setting4.txt&#96;;now&#x3D;&#96;date">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动删除旧文件">
+<meta property="og:url" content="http://example.com/2022/01/29/%E8%87%AA%E5%8A%A8%E5%88%A0%E9%99%A4%E6%97%A7%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="YC-BLOG">
+<meta property="og:description" content="有时候在做项目时候需要一直保存文件，但是由于内存容量有限，需要及时删除旧文件。以下脚本实现功能：当内存到达一定值时，删除文件时间属性较早的文件。个人完全不会shell脚本编程。都是一点点问度娘的，如有不对之处敬请谅解。 读取指定文件时间属性。1234cd &#x2F;var&#x2F;www&#x2F;Public&#x2F;ParamsSet&#x2F;creat_time&#x3D;&#96;stat -c %Y setting4.txt&#96;;now&#x3D;&#96;date">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-29T06:01:40.000Z">
+<meta property="article:modified_time" content="2022-01-29T06:03:05.280Z">
+<meta property="article:author" content="yc">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="code">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/01/29/%E8%87%AA%E5%8A%A8%E5%88%A0%E9%99%A4%E6%97%A7%E6%96%87%E4%BB%B6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/29/%E8%87%AA%E5%8A%A8%E5%88%A0%E9%99%A4%E6%97%A7%E6%96%87%E4%BB%B6/","path":"2022/01/29/自动删除旧文件/","title":"自动删除旧文件"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>自动删除旧文件 | YC-BLOG</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">YC-BLOG</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">ProjectViwer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-archive fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+        <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96%E6%8C%87%E5%AE%9A%E6%96%87%E4%BB%B6%E6%97%B6%E9%97%B4%E5%B1%9E%E6%80%A7%E3%80%82"><span class="nav-number">1.</span> <span class="nav-text">读取指定文件时间属性。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%98%88%E5%80%BC%E8%BF%9B%E8%A1%8C%E7%9B%B8%E5%AF%B9%E5%BA%94%E5%A4%84%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">设置阈值进行相对应处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96%E5%89%A9%E4%BD%99%E5%86%85%E5%AD%98"><span class="nav-number">3.</span> <span class="nav-text">读取剩余内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E5%B9%B6%E6%A0%B9%E6%8D%AE%E9%98%88%E5%80%BC%E5%88%A0%E9%99%A4%E5%AF%B9%E5%BA%94%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">查找并根据阈值删除对应的文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C"><span class="nav-number">5.</span> <span class="nav-text">定时执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AFcron"><span class="nav-number">6.</span> <span class="nav-text">重启cron</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yc</p>
+  <div class="site-description" itemprop="description">记录工作</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/29/%E8%87%AA%E5%8A%A8%E5%88%A0%E9%99%A4%E6%97%A7%E6%96%87%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yc">
+      <meta itemprop="description" content="记录工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YC-BLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自动删除旧文件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-01-29 14:01:40 / 修改时间：14:03:05" itemprop="dateCreated datePublished" datetime="2022-01-29T14:01:40+08:00">2022-01-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>有时候在做项目时候需要一直保存文件，但是由于内存容量有限，需要及时删除旧文件。以下脚本实现功能：当内存到达一定值时，删除文件时间属性较早的文件。个人完全不会shell脚本编程。都是一点点问度娘的，如有不对之处敬请谅解。</p>
+<h2 id="读取指定文件时间属性。"><a href="#读取指定文件时间属性。" class="headerlink" title="读取指定文件时间属性。"></a>读取指定文件时间属性。</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /var/www/Public/ParamsSet/</span><br><span class="line">creat_time=`stat -c %Y setting4.txt`;now=`date +%s`;</span><br><span class="line">echo $creat_time</span><br><span class="line">echo $now </span><br></pre></td></tr></table></figure>
+<p>其中creat_time为文件最后一次改动的时间(1970到现在，单位s)，now为现在系统时间。</p>
+<span id="more"></span>
+
+<h2 id="设置阈值进行相对应处理"><a href="#设置阈值进行相对应处理" class="headerlink" title="设置阈值进行相对应处理"></a>设置阈值进行相对应处理</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">memory=90</span><br><span class="line">hour=1</span><br><span class="line">if [ $[ $now - $creat_time ] -le 360 ];then</span><br><span class="line">    printf &quot;*************************************\n&quot;</span><br><span class="line">    n=1</span><br><span class="line">    cat setting4.txt |while read line  </span><br><span class="line">    do</span><br><span class="line">        if [ $n -eq 2 ];then</span><br><span class="line">            memory=$line</span><br><span class="line">            echo $memory </span><br><span class="line">        fi</span><br><span class="line">        if [ $n -eq 3 ];then</span><br><span class="line">            hour=$line</span><br><span class="line">            n=$[$n+1]</span><br><span class="line">            echo $hour </span><br><span class="line">        fi</span><br><span class="line">        n=$[$n+1]</span><br><span class="line">    done</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>这部分是我自己实际需求，可以忽略</p>
+<h2 id="读取剩余内存"><a href="#读取剩余内存" class="headerlink" title="读取剩余内存"></a>读取剩余内存</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /home/ubuntu/workspace/Server_Face/data/</span><br><span class="line">p=`df / | awk &#x27;&#123;print $5&#125;&#x27; | grep -Eo &#x27;[0-9]+&#x27; `</span><br><span class="line">echo $p</span><br><span class="line">echo $memory</span><br></pre></td></tr></table></figure>
+<h2 id="查找并根据阈值删除对应的文件"><a href="#查找并根据阈值删除对应的文件" class="headerlink" title="查找并根据阈值删除对应的文件"></a>查找并根据阈值删除对应的文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if [ $p &gt; $memory ];then</span><br><span class="line">    find . -mmin -10 -name &quot;*.jpg&quot; -exec rm -rvf &#123;&#125; \;</span><br><span class="line">    echo &quot;bigger 95&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>其中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -mmin -10 -name &quot;*.jpg&quot; -exec rm -rvf &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+<p>查找当前目录下10min内修过过的文件并删除。查找具体见find命令，参数不同可以实现不同功能，-mmin为min，有以天为单位的参数。</p>
+<h2 id="定时执行"><a href="#定时执行" class="headerlink" title="定时执行"></a>定时执行</h2><p>在Linux中，常用cron来完成定时功能。具体百度其用法。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@tegra-ubuntu:~$ sudo crontab -e</span><br></pre></td></tr></table></figure>
+<p>在文件最后一行加入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/1 * * * * sh /home/ubuntu/remove_file.sh</span><br></pre></td></tr></table></figure>
+<p>表示一分钟执行一次.sh，具体可以实现很多功能，可以百度cron用法。</p>
+<h2 id="重启cron"><a href="#重启cron" class="headerlink" title="重启cron"></a>重启cron</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@tegra-ubuntu:~$ service crond restart </span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/code/" rel="tag"># code</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/29/socket%E7%BC%96%E7%A8%8B/" rel="prev" title="socket编程">
+                  <i class="fa fa-chevron-left"></i> socket编程
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yc</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

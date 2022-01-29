@@ -19,30 +19,29 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="1.环境安装显卡驱动、CUDA、CUDNN等，这部分显卡驱动以前都是用run本地文件安装，现在使用的都是Ubuntu软件中心直接安装驱动，简单方便">
+<meta name="description" content="在做东西时候，有时候代码有些小bug，进程会崩掉。所以进程需要一个自动重启功能。 实现进程自动重连。1234567891011#!&#x2F;bin&#x2F;shkill -KILL &#96;ps -aux | grep &amp;#x27;Face_Web&amp;#x27; | awk &amp;#x27;&amp;#123;print $2&amp;#125;&amp;#x27;&#96; &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1while [ 1 ];">
 <meta property="og:type" content="article">
-<meta property="og:title" content="apollo安装">
-<meta property="og:url" content="http://example.com/2022/01/17/Apollo%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:title" content="Linux进程自动重连">
+<meta property="og:url" content="http://example.com/2022/01/29/Linux%E8%BF%9B%E7%A8%8B%E8%87%AA%E5%8A%A8%E9%87%8D%E8%BF%9E/index.html">
 <meta property="og:site_name" content="YC-BLOG">
-<meta property="og:description" content="1.环境安装显卡驱动、CUDA、CUDNN等，这部分显卡驱动以前都是用run本地文件安装，现在使用的都是Ubuntu软件中心直接安装驱动，简单方便">
+<meta property="og:description" content="在做东西时候，有时候代码有些小bug，进程会崩掉。所以进程需要一个自动重启功能。 实现进程自动重连。1234567891011#!&#x2F;bin&#x2F;shkill -KILL &#96;ps -aux | grep &amp;#x27;Face_Web&amp;#x27; | awk &amp;#x27;&amp;#123;print $2&amp;#125;&amp;#x27;&#96; &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1while [ 1 ];">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/01/17/Apollo%E5%AE%89%E8%A3%85/docker%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8.png">
-<meta property="article:published_time" content="2022-01-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-29T03:10:47.399Z">
+<meta property="article:published_time" content="2022-01-29T05:50:25.000Z">
+<meta property="article:modified_time" content="2022-01-29T05:54:17.679Z">
 <meta property="article:author" content="yc">
-<meta property="article:tag" content="apollo">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="code">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/01/17/Apollo%E5%AE%89%E8%A3%85/docker%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8.png">
 
 
-<link rel="canonical" href="http://example.com/2022/01/17/Apollo%E5%AE%89%E8%A3%85/">
+<link rel="canonical" href="http://example.com/2022/01/29/Linux%E8%BF%9B%E7%A8%8B%E8%87%AA%E5%8A%A8%E9%87%8D%E8%BF%9E/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/17/Apollo%E5%AE%89%E8%A3%85/","path":"2022/01/17/Apollo安装/","title":"apollo安装"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/29/Linux%E8%BF%9B%E7%A8%8B%E8%87%AA%E5%8A%A8%E9%87%8D%E8%BF%9E/","path":"2022/01/29/Linux进程自动重连/","title":"Linux进程自动重连"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>apollo安装 | YC-BLOG</title>
+<title>Linux进程自动重连 | YC-BLOG</title>
   
 
 
@@ -125,7 +124,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">1.环境安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Docker%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">2.Docker安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AE%89%E8%A3%85nvidia-docker"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 安装nvidia docker,</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-apollo%E4%B8%8B%E8%BD%BD%E5%92%8C%E5%AE%89%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">3.apollo下载和安装</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%9B%E7%A8%8B%E8%87%AA%E5%8A%A8%E9%87%8D%E8%BF%9E%E3%80%82"><span class="nav-number">1.</span> <span class="nav-text">实现进程自动重连。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8"><span class="nav-number">2.</span> <span class="nav-text">开机自启动</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -188,7 +187,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/17/Apollo%E5%AE%89%E8%A3%85/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/29/Linux%E8%BF%9B%E7%A8%8B%E8%87%AA%E5%8A%A8%E9%87%8D%E8%BF%9E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -201,7 +200,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          apollo安装
+          Linux进程自动重连
         </h1>
 
         <div class="post-meta-container">
@@ -211,15 +210,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-01-17 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-17T00:00:00+08:00">2022-01-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-01-29 11:10:47" itemprop="dateModified" datetime="2022-01-29T11:10:47+08:00">2022-01-29</time>
+      <time title="创建时间：2022-01-29 13:50:25 / 修改时间：13:54:17" itemprop="dateCreated datePublished" datetime="2022-01-29T13:50:25+08:00">2022-01-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -227,7 +220,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6/" itemprop="url" rel="index"><span itemprop="name">无人驾驶</span></a>
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
         </span>
     </span>
 
@@ -241,39 +238,16 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="1-环境安装"><a href="#1-环境安装" class="headerlink" title="1.环境安装"></a>1.环境安装</h2><p>显卡驱动、CUDA、CUDNN等，这部分显卡驱动以前都是用run本地文件安装，现在使用的都是Ubuntu软件中心直接安装驱动，简单方便</p>
+        <p>﻿在做东西时候，有时候代码有些小bug，进程会崩掉。所以进程需要一个自动重启功能。</p>
+<h2 id="实现进程自动重连。"><a href="#实现进程自动重连。" class="headerlink" title="实现进程自动重连。"></a>实现进程自动重连。</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line">kill -KILL `ps -aux | grep &#x27;Face_Web&#x27; | awk &#x27;&#123;print $2&#125;&#x27;` &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">while [ 1 ]; do</span><br><span class="line">    appexe1=`ps -A | grep &#x27;Face_Web&#x27; | wc -l`</span><br><span class="line">    if [ $appexe1 -eq 0 ]; then</span><br><span class="line">                kill -KILL `ps -aux | grep &#x27;Face_Web&#x27; | awk &#x27;&#123;print $2&#125;&#x27;` &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">                echo &quot;Start Face_Web&quot;</span><br><span class="line">                /home/ubuntu/workspace/Server_Face/build/Face_Web &amp;</span><br><span class="line">    fi</span><br><span class="line">    sleep 2</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
 <span id="more"></span>
 
-<h2 id="2-Docker安装"><a href="#2-Docker安装" class="headerlink" title="2.Docker安装"></a>2.Docker安装</h2><p>Apollo 6.0 以上版本需要 Docker 19.03+支持，社区版的安装可以在终端使用一下命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://get.docker.com | sh</span><br><span class="line">sudo systemctl start docker &amp;&amp; sudo systemctl enable docker</span><br></pre></td></tr></table></figure>
+<p>有些没有看懂，不过没关系不影响我使用，将Face_Web换成需要重连进程并填入进程所在路径，放在开机自启动就行了。</p>
+<h2 id="开机自启动"><a href="#开机自启动" class="headerlink" title="开机自启动"></a>开机自启动</h2><p>一般都是放在rc.local中来实现的，这种方法是开机后系统运行时候所执行的，其用户权限是root。所以进程生成文件都是root用户下的，一般用户需要sudo才能对这些文件进行操作。还有一种是修改用户目录下的.profile文件，这种方式进程生成文件都是改用户所有。但是这种方式是每次切换到该用户自启动脚本都会被执行，为了偷懒(实际是不会修改profile文件)我放在了rc.local中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /home/nvidia/worksapce/DarkWeb/cwf/chang_ip</span><br><span class="line">echo &quot;nvidia&quot; | sudo -S ./set_net</span><br><span class="line">cd /home/nvidia/workspace/Server_Face_2/build/</span><br><span class="line">sh runBat.sh</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
 
-<p>完成安装后重启 Docker 进程：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<p>添加用户到docker用户组，可以避免频繁的加sudo</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd docker</span><br><span class="line">sudo usermod -aG docker your_username</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-1-安装nvidia-docker"><a href="#2-1-安装nvidia-docker" class="headerlink" title="2.1 安装nvidia docker,"></a>2.1 安装nvidia docker,</h3><p>这是为了让docker容器能够使用nvidia的显卡</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">distribution=$(. /etc/os-release;echo $ID$VERSION_ID)</span><br><span class="line">curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -</span><br><span class="line">curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span><br><span class="line">sudo apt-get -y update</span><br><span class="line">sudo apt-get install -y nvidia-docker2</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-apollo下载和安装"><a href="#3-apollo下载和安装" class="headerlink" title="3.apollo下载和安装"></a>3.apollo下载和安装</h2><ul>
-<li><p>clone源码</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@gitee.com:ApolloAuto/apollo.git</span><br></pre></td></tr></table></figure></li>
-<li><p>启动容器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./docker/scripts/dev_start.sh</span><br></pre></td></tr></table></figure>
-
-<p>出现一下内容说明启动成功</p>
-<p><img src="/2022/01/17/Apollo%E5%AE%89%E8%A3%85/docker%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8.png" alt="img"></p>
-</li>
-<li><p>进入容器编译</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./docker/scripts/dev_into.sh</span><br><span class="line">./apollo.sh build_dbg</span><br></pre></td></tr></table></figure>
-
-<p>出现</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">成功标志</span></span><br><span class="line">[ OK ] Done building apollo. Enjoy!</span><br></pre></td></tr></table></figure>
-
-<p>即可说明编译成功。注意：编译过程中，可能由于内存不足，导致死机编译失败，可以通过扩大swap空间、情况缓存等方式解决，清理缓存脚本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">while : ;do</span><br><span class="line">free -m	</span><br><span class="line">sync &amp;&amp; echo 1 | sudo tee /proc/sys/vm/drop_caches</span><br><span class="line">sync &amp;&amp; echo 2 | sudo tee /proc/sys/vm/drop_caches</span><br><span class="line">sync &amp;&amp; echo 3 | sudo tee /proc/sys/vm/drop_caches</span><br><span class="line">sleep 1</span><br><span class="line">done</span><br></pre></td></tr></table></figure></li>
-</ul>
+<p>在exit 0 上面加上脚本所在目录并运行脚本。</p>
 
     </div>
 
@@ -283,20 +257,21 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/apollo/" rel="tag"># apollo</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/code/" rel="tag"># code</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/01/13/UFLD%20Custom%20Datasets%E6%A0%87%E6%B3%A8%E8%AE%AD%E7%BB%83/" rel="prev" title="UFLD车道线检测">
-                  <i class="fa fa-chevron-left"></i> UFLD车道线检测
+                <a href="/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/" rel="prev" title="vscode调试apollo">
+                  <i class="fa fa-chevron-left"></i> vscode调试apollo
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/01/17/%E5%A4%9A%E6%80%81%E5%92%8C%E8%99%9A%E5%87%BD%E6%95%B0/" rel="next" title="多态和虚函数">
-                  多态和虚函数 <i class="fa fa-chevron-right"></i>
+                <a href="/2022/01/29/socket%E7%BC%96%E7%A8%8B/" rel="next" title="socket编程">
+                  socket编程 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
