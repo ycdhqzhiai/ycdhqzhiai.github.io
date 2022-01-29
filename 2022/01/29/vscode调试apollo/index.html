@@ -19,28 +19,34 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="c++1.C语言在内存中一共分为如下几个区域，分别是：  内存栈区： 存放局部变量名 内存堆区： 存放new或者malloc出来的对象 常数区： 存放局部变量或者全局变量的值  静态区： 用于存放全局变量或者静态变量">
+<meta name="description" content="vscode安装docker插件​    具体安装步骤如下：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++ tips">
-<meta property="og:url" content="http://example.com/2022/01/13/C++/index.html">
+<meta property="og:title" content="vscode调试apollo">
+<meta property="og:url" content="http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/index.html">
 <meta property="og:site_name" content="YC-BLOG">
-<meta property="og:description" content="c++1.C语言在内存中一共分为如下几个区域，分别是：  内存栈区： 存放局部变量名 内存堆区： 存放new或者malloc出来的对象 常数区： 存放局部变量或者全局变量的值  静态区： 用于存放全局变量或者静态变量">
+<meta property="og:description" content="vscode安装docker插件​    具体安装步骤如下：">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-28T01:58:09.975Z">
+<meta property="og:image" content="http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/2022-01-29_10-41.png">
+<meta property="og:image" content="http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/2022-01-29_11-07.png">
+<meta property="og:image" content="http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/2022-01-29_11-10.png">
+<meta property="og:image" content="http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/image-20220129111338018">
+<meta property="og:image" content="http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/2022-01-29_11-17.png">
+<meta property="article:published_time" content="2022-01-29T02:36:55.000Z">
+<meta property="article:modified_time" content="2022-01-29T03:20:08.514Z">
 <meta property="article:author" content="yc">
-<meta property="article:tag" content="c++">
+<meta property="article:tag" content="apollo">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/2022-01-29_10-41.png">
 
 
-<link rel="canonical" href="http://example.com/2022/01/13/C++/">
+<link rel="canonical" href="http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/13/C++/","path":"2022/01/13/C++/","title":"C++ tips"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/","path":"2022/01/29/vscode调试apollo/","title":"vscode调试apollo"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>C++ tips | YC-BLOG</title>
+<title>vscode调试apollo | YC-BLOG</title>
   
 
 
@@ -123,7 +129,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c"><span class="nav-number">1.</span> <span class="nav-text">c++</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#vscode%E5%AE%89%E8%A3%85docker%E6%8F%92%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">vscode安装docker插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8apollo%E5%AE%B9%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">启动apollo容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8Evscode%E4%B8%AD%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">从vscode中进入容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%AE%B9%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">配置容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF"><span class="nav-number">5.</span> <span class="nav-text">配置调试信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E8%B0%83%E8%AF%95"><span class="nav-number">6.</span> <span class="nav-text">开始调试</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -186,7 +192,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/13/C++/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -199,7 +205,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C++ tips
+          vscode调试apollo
         </h1>
 
         <div class="post-meta-container">
@@ -209,15 +215,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-01-13 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-13T00:00:00+08:00">2022-01-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-01-28 09:58:09" itemprop="dateModified" datetime="2022-01-28T09:58:09+08:00">2022-01-28</time>
+      <time title="创建时间：2022-01-29 10:36:55 / 修改时间：11:20:08" itemprop="dateCreated datePublished" datetime="2022-01-29T10:36:55+08:00">2022-01-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -225,7 +225,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+          <a href="/categories/%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6/" itemprop="url" rel="index"><span itemprop="name">无人驾驶</span></a>
         </span>
     </span>
 
@@ -239,157 +239,21 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="c"><a href="#c" class="headerlink" title="c++"></a>c++</h1><p>1.C语言在内存中一共分为如下几个区域，分别是：</p>
-<ul>
-<li>内存栈区： 存放局部变量名</li>
-<li>内存堆区： 存放new或者malloc出来的对象</li>
-<li>常数区： 存放局部变量或者全局变量的值</li>
-<li> 静态区： 用于存放全局变量或者静态变量</li>
-</ul>
+        <h2 id="vscode安装docker插件"><a href="#vscode安装docker插件" class="headerlink" title="vscode安装docker插件"></a>vscode安装docker插件</h2><p>​    具体安装步骤如下：</p>
+<p><img src="/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/2022-01-29_10-41.png" alt="images"></p>
 <span id="more"></span>
 
-<p>2.一个由C/C++编译的程序占用的内存分为以下几个部分</p>
+<h2 id="启动apollo容器"><a href="#启动apollo容器" class="headerlink" title="启动apollo容器"></a>启动apollo容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd apollo</span><br><span class="line">./docker/scripts/dev_start.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="从vscode中进入容器"><a href="#从vscode中进入容器" class="headerlink" title="从vscode中进入容器"></a>从vscode中进入容器</h2><p><img src="/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/2022-01-29_11-07.png" alt="images"></p>
+<h2 id="配置容器"><a href="#配置容器" class="headerlink" title="配置容器"></a>配置容器</h2><p><img src="/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/2022-01-29_11-10.png" alt="images"></p>
+<h2 id="配置调试信息"><a href="#配置调试信息" class="headerlink" title="配置调试信息"></a>配置调试信息</h2><p><img src="/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/image-20220129111338018" alt="image-20220129111338018"></p>
 <ul>
-<li><p>栈区（stack）— 程序运行时由编译器自动分配，存放函数的参数值，局部变量的值等。</p>
-</li>
-<li><p>堆区（heap） — 在内存开辟另一块存储区域。 一般由程序员分配释放， 若程序员不释放，程序结束时可能由OS回收 。</p>
-</li>
-<li><p>全局区（静态区）（static）—编译器编译时即分配内存。全局变量和静态变量的存储是放在一块的，初始化的全局变量和静态变量在一块区域，未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。 - 程序结束后由系统释放</p>
-</li>
+<li>program参数：apollo main函数可执行文件，启动apollo</li>
+<li>args：可执行文件参数，截图为启动apollo车道线检测模块的命令</li>
 </ul>
-<p><strong>表1 栈和堆的对比</strong></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>栈</th>
-<th>堆</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>存储内容</td>
-<td>局部变量</td>
-<td>new malloc变量</td>
-</tr>
-<tr>
-<td>作用域</td>
-<td>函数作用域、语句块作用域</td>
-<td>函数作用域、语句块作用域</td>
-</tr>
-<tr>
-<td>编译期间大小是否确定</td>
-<td>是</td>
-<td>否</td>
-</tr>
-<tr>
-<td>大小</td>
-<td>1MB</td>
-<td>4GB</td>
-</tr>
-<tr>
-<td>内存分配方式</td>
-<td>地址由高向低减少</td>
-<td>地址由低向高增加</td>
-</tr>
-<tr>
-<td>内容是否可以修改</td>
-<td>是</td>
-<td>是</td>
-</tr>
-</tbody></table>
-<p><strong>表2 全局/静态存储区和常量存储区的对比</strong></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>全局/静态存储区</th>
-<th>常量存储区</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>存储内容</td>
-<td>全局变量、静态变量</td>
-<td>常量</td>
-</tr>
-<tr>
-<td>编译期间大小是否确定</td>
-<td>是</td>
-<td>是</td>
-</tr>
-<tr>
-<td>内容是否可以修改</td>
-<td>是</td>
-<td>否</td>
-</tr>
-</tbody></table>
-<p>3.C++ class和struct到底有什么区别</p>
-<ul>
-<li>使用 class 时，类中的成员默认都是 private 属性的；而使用 struct 时，结构体中的成员默认都是 public 属性的。</li>
-<li>class 继承默认是 private 继承，而 struct 继承默认是 public 继承</li>
-<li>class 可以使用模板，而 struct 不能</li>
-</ul>
-<p>4.“引用”与指针的区别是什么？</p>
-<ul>
-<li><p>引用不能为空，即不存在对空对象的引用，指针可以为空，指向空对象。 </p>
-</li>
-<li><p>引用必须初始化，指定对哪个对象的引用，指针不需要。 </p>
-</li>
-<li><p>引用初始化后不能改变，指针可以改变所指对象的值。 </p>
-</li>
-</ul>
-<p>5.const 与 #define</p>
-<p>(1) 编译器处理方式不同<br> 　#define宏是在预处理阶段展开。<br> 　const常量是编译运行阶段使用。<br> (2) 类型和安全检查不同<br> 　#define宏没有类型，不做任何类型检查，仅仅是展开。<br> 　const常量有具体的类型，在编译阶段会执行类型检查。<br> (3) 存储方式不同<br> 　#define宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。（宏定义不分配内存，变量定义分配内存。）<br> 　const常量会在内存中分配(可以是堆中也可以是栈中)。</p>
-<table>
-<thead>
-<tr>
-<th>宏定义 #define</th>
-<th>const 常量</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>宏定义，相当于字符替换</td>
-<td>常量声明</td>
-</tr>
-<tr>
-<td>预处理器处理</td>
-<td>编译器处理</td>
-</tr>
-<tr>
-<td>无类型安全检查</td>
-<td>有类型安全检查</td>
-</tr>
-<tr>
-<td>不分配内存</td>
-<td>要分配内存</td>
-</tr>
-</tbody></table>
-<p>6.malloc/free和new/delete</p>
-<ul>
-<li><p>malloc/free是C++/C语言的标准<strong>库函数</strong>，而new/delete是C++的<strong>运算符</strong></p>
-</li>
-<li><p>在C++语言中可以随时调用C语言库函数（函数）管理内存，但是在C语言中只能使用malloc/free来管理动态内存。</p>
-</li>
-<li><p>new 建立的对象，用成员函数进行访问；malloc分配的是一片内存区域，可以直接用指针访问</p>
-</li>
-<li><p>new建立的是一个对象，而malloc分配的是一块内存。</p>
-</li>
-<li><p>new自动计算需要分配的空间，而malloc需要手动计算字节数。</p>
-</li>
-</ul>
-<p>7.在c++的一个类中声明一个static成员变量有没有用？<br>在C++类的成员变量被声明为static（称为静态成员变量），意味着它为该类的所有实例所共享，也就是说当某个类的实例修改了该静态成员变量，也就是说不管创建多少对象，static修饰的变量只占有一块内存。其修改值为该类的其它所有实例所见；而类的静态成员函数也只能访问静态成员（变量或函数）。static是加了访问控制的全局变量，不被继承。</p>
-<ol start="8">
-<li>static</li>
-</ol>
-<ul>
-<li><p>修饰普通变量，修改变量的存储区域和生命周期，使变量存储在静态区，在 main 函数运行前就分配了空间，如果有初始值就用初始值初始化它，如果没有初始值系统用默认值初始化它。</p>
-</li>
-<li><p>修饰普通函数，表明函数的作用范围，仅在定义该函数的文件内才能使用。在多人开发项目时，为了防止与他人命名空间里的函数重名，可以将函数定位为 static。</p>
-</li>
-<li><p>修饰成员变量，修饰成员变量使所有的对象只保存一个该变量，而且不需要生成对象就可以访问该成员。</p>
-</li>
-<li><p>修饰成员函数，修饰成员函数使得不需要生成对象就可以访问该函数，但是在 static 函数内不能访问非静态成员。</p>
-</li>
-</ul>
+<h2 id="开始调试"><a href="#开始调试" class="headerlink" title="开始调试"></a>开始调试</h2><p>打断点，F5开始调试</p>
+<p><img src="/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/2022-01-29_11-17.png" alt="images"></p>
 
     </div>
 
@@ -399,18 +263,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/c/" rel="tag"># c++</a>
+              <a href="/tags/apollo/" rel="tag"># apollo</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2022/01/17/%E5%A4%9A%E6%80%81%E5%92%8C%E8%99%9A%E5%87%BD%E6%95%B0/" rel="prev" title="多态和虚函数">
+                  <i class="fa fa-chevron-left"></i> 多态和虚函数
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/01/13/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/" rel="next" title="new与malloc">
-                  new与malloc <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
