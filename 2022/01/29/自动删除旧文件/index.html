@@ -51,7 +51,11 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
@@ -242,19 +246,14 @@
 <h2 id="读取指定文件时间属性。"><a href="#读取指定文件时间属性。" class="headerlink" title="读取指定文件时间属性。"></a>读取指定文件时间属性。</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /var/www/Public/ParamsSet/</span><br><span class="line">creat_time=`stat -c %Y setting4.txt`;now=`date +%s`;</span><br><span class="line">echo $creat_time</span><br><span class="line">echo $now </span><br></pre></td></tr></table></figure>
 <p>其中creat_time为文件最后一次改动的时间(1970到现在，单位s)，now为现在系统时间。</p>
 <span id="more"></span>
-
 <h2 id="设置阈值进行相对应处理"><a href="#设置阈值进行相对应处理" class="headerlink" title="设置阈值进行相对应处理"></a>设置阈值进行相对应处理</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">memory=90</span><br><span class="line">hour=1</span><br><span class="line">if [ $[ $now - $creat_time ] -le 360 ];then</span><br><span class="line">    printf &quot;*************************************\n&quot;</span><br><span class="line">    n=1</span><br><span class="line">    cat setting4.txt |while read line  </span><br><span class="line">    do</span><br><span class="line">        if [ $n -eq 2 ];then</span><br><span class="line">            memory=$line</span><br><span class="line">            echo $memory </span><br><span class="line">        fi</span><br><span class="line">        if [ $n -eq 3 ];then</span><br><span class="line">            hour=$line</span><br><span class="line">            n=$[$n+1]</span><br><span class="line">            echo $hour </span><br><span class="line">        fi</span><br><span class="line">        n=$[$n+1]</span><br><span class="line">    done</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 <p>这部分是我自己实际需求，可以忽略</p>
 <h2 id="读取剩余内存"><a href="#读取剩余内存" class="headerlink" title="读取剩余内存"></a>读取剩余内存</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /home/ubuntu/workspace/Server_Face/data/</span><br><span class="line">p=`df / | awk &#x27;&#123;print $5&#125;&#x27; | grep -Eo &#x27;[0-9]+&#x27; `</span><br><span class="line">echo $p</span><br><span class="line">echo $memory</span><br></pre></td></tr></table></figure>
 <h2 id="查找并根据阈值删除对应的文件"><a href="#查找并根据阈值删除对应的文件" class="headerlink" title="查找并根据阈值删除对应的文件"></a>查找并根据阈值删除对应的文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if [ $p &gt; $memory ];then</span><br><span class="line">    find . -mmin -10 -name &quot;*.jpg&quot; -exec rm -rvf &#123;&#125; \;</span><br><span class="line">    echo &quot;bigger 95&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-<p>其中</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -mmin -10 -name &quot;*.jpg&quot; -exec rm -rvf &#123;&#125; \;</span><br></pre></td></tr></table></figure>
-<p>查找当前目录下10min内修过过的文件并删除。查找具体见find命令，参数不同可以实现不同功能，-mmin为min，有以天为单位的参数。</p>
+<p>其中<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -mmin -10 -name &quot;*.jpg&quot; -exec rm -rvf &#123;&#125; \;</span><br></pre></td></tr></table></figure><br>查找当前目录下10min内修过过的文件并删除。查找具体见find命令，参数不同可以实现不同功能，-mmin为min，有以天为单位的参数。</p>
 <h2 id="定时执行"><a href="#定时执行" class="headerlink" title="定时执行"></a>定时执行</h2><p>在Linux中，常用cron来完成定时功能。具体百度其用法。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@tegra-ubuntu:~$ sudo crontab -e</span><br></pre></td></tr></table></figure>
-<p>在文件最后一行加入</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/1 * * * * sh /home/ubuntu/remove_file.sh</span><br></pre></td></tr></table></figure>
-<p>表示一分钟执行一次.sh，具体可以实现很多功能，可以百度cron用法。</p>
+<p>在文件最后一行加入<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/1 * * * * sh /home/ubuntu/remove_file.sh</span><br></pre></td></tr></table></figure><br>表示一分钟执行一次.sh，具体可以实现很多功能，可以百度cron用法。</p>
 <h2 id="重启cron"><a href="#重启cron" class="headerlink" title="重启cron"></a>重启cron</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@tegra-ubuntu:~$ service crond restart </span><br></pre></td></tr></table></figure>
 
     </div>
@@ -326,6 +325,12 @@
   
 
 
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"per_page":true,"engine":"mathjax","tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
 
 
 

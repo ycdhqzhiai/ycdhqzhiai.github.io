@@ -50,7 +50,11 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
@@ -244,16 +248,13 @@
 <li>多态实际上只是一种思想，而虚函数是实现这个思想的语法基础</li>
 </ul>
 <span id="more"></span>
-
 <h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>在一般成员函数前面加 virtual 即可将成员函数声明为虚函数</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span> </span>&#123;  <span class="comment">// 虚函数</span></span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;virtual function&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Test</span>().<span class="built_in">func</span>(); <span class="comment">// 运行结果：virtual function ，这是通过临时变量调用的，后面再详细介绍一下临时变量</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>在单一 class 中实现虚函数意义并不大，虚函数主要是为了实现子类函数重写父类函数的作用</li>
 <li>要实现多态，通常父类中的虚函数与子类中的函数的返回值类型、函数名和参数列表必须都相同的，但是在协变的情况下返回值类型可以不一样，协变即虚函数的返回值类型为所在类的指针或引用</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ====== 一般多态的实现 ======</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestA</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">vfunc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;TestA virtual function&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">TestA</span>() &#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> :</span> <span class="keyword">public</span> TestA &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">vfunc</span><span class="params">()</span> </span>&#123;  <span class="comment">// 子类的 virtual 可写可不写</span></span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Test virtual function&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~<span class="built_in">Test</span>() &#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">TestA* t = <span class="keyword">new</span> Test; <span class="comment">// 父类指针指向子类空间(多态的实现)</span></span><br><span class="line">t-&gt;<span class="built_in">vfunc</span>();          <span class="comment">// 运行结果：Test virtual function，父类指针调用子类函数(多态的实现)</span></span><br><span class="line"><span class="keyword">delete</span> t;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>子类重写的函数默认是虚函数，也可以显式的加上 virtual，也可以不加</li>
 <li>虚函数不能是内联函数，加上 inline 是没有效果的</li>
@@ -261,7 +262,6 @@
 <li>析构函数可以是虚函数(在多态中应写虚析构)</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestA</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">vfunc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;TestA virtual function&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">TestA</span>() &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;TestA dtor&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestB</span> :</span> <span class="keyword">public</span> TestA &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">vfunc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;TestB virtual function&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~<span class="built_in">TestB</span>() &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;TestB dtor&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> :</span> <span class="keyword">public</span> TestB &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">vfunc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Test virtual function&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~<span class="built_in">Test</span>() &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Test dtor&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">TestB* t = <span class="keyword">new</span> Test;</span><br><span class="line">t-&gt;<span class="built_in">vfunc</span>();</span><br><span class="line"><span class="keyword">delete</span> t;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行结果: Test virtual function</span></span><br><span class="line"><span class="comment">//          Test dtor</span></span><br><span class="line"><span class="comment">//          TestB dtor</span></span><br><span class="line"><span class="comment">//          TestA dtor</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. class TestB 的 vfunc() 函数前面没有加 virtual 但是它的子类依然可以重写，说明class TestB 的 vfunc() 函数重写了 class TestA 的 vfunc() 函数后自己默认就是虚函数了(前面的 virtual 可写可不写了)</span></span><br><span class="line"><span class="comment">// 2. 析构函数写成虚函数后释放子类的空间时，子类的析构函数执行后还会执行父类的析构函数，避免了内存泄漏</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>纯虚函数</strong></p>
 <ul>
 <li><code>virtual void fun() = 0</code>; // 这是纯虚函数的形式</li>
@@ -271,7 +271,6 @@
 <li>构造函数不可以是纯虚函数</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestA</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">vfunc</span><span class="params">()</span> </span>= <span class="number">0</span>; <span class="comment">// 纯虚函数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">TestA</span>() &#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> :</span> <span class="keyword">public</span> TestA &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">vfunc</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Test virtual function&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~<span class="built_in">Test</span>() &#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Test* p = <span class="keyword">new</span> Test;</span><br><span class="line">p-&gt;<span class="built_in">vfunc</span>();</span><br><span class="line"><span class="comment">// 解释在虚表代码的注释处</span></span><br><span class="line"><span class="keyword">reinterpret_cast</span>&lt;<span class="built_in"><span class="keyword">void</span></span>(*)()&gt;(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">long</span> <span class="keyword">long</span>*&gt;(*<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">long</span> <span class="keyword">long</span>*&gt;(p))[<span class="number">0</span>])();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行结果：</span></span><br><span class="line"><span class="comment">// Test virtual function</span></span><br><span class="line"><span class="comment">// Test virtual function</span></span><br></pre></td></tr></table></figure>
-
 <p><strong>虚析构</strong></p>
 <ul>
 <li>在多态中，如果释放父类指针(指向子类的父类指针)，只会调用父类的析构函数，将父类的析构函数声明为虚函数(虚析构，加 virtual 修饰的析构函数)，就会先调用子类的析构函数再调用父类的析构函数，所以在多态中，要用虚析构</li>
@@ -294,13 +293,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/01/17/Apollo%E5%AE%89%E8%A3%85/" rel="prev" title="apollo安装">
-                  <i class="fa fa-chevron-left"></i> apollo安装
+                <a href="/2022/01/13/C++/" rel="prev" title="C++ tips">
+                  <i class="fa fa-chevron-left"></i> C++ tips
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/01/29/vscode%E8%B0%83%E8%AF%95apollo/" rel="next" title="vscode调试apollo">
-                  vscode调试apollo <i class="fa fa-chevron-right"></i>
+                <a href="/2022/01/17/Apollo%E5%AE%89%E8%A3%85/" rel="next" title="apollo安装">
+                  apollo安装 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -347,6 +346,12 @@
   
 
 
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"per_page":true,"engine":"mathjax","tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
 
 
 

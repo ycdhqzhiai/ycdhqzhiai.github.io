@@ -51,7 +51,11 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
@@ -240,13 +244,10 @@
     <div class="post-body" itemprop="articleBody">
         <p>﻿在做东西时候，有时候代码有些小bug，进程会崩掉。所以进程需要一个自动重启功能。</p>
 <h2 id="实现进程自动重连。"><a href="#实现进程自动重连。" class="headerlink" title="实现进程自动重连。"></a>实现进程自动重连。</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line">kill -KILL `ps -aux | grep &#x27;Face_Web&#x27; | awk &#x27;&#123;print $2&#125;&#x27;` &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">while [ 1 ]; do</span><br><span class="line">    appexe1=`ps -A | grep &#x27;Face_Web&#x27; | wc -l`</span><br><span class="line">    if [ $appexe1 -eq 0 ]; then</span><br><span class="line">                kill -KILL `ps -aux | grep &#x27;Face_Web&#x27; | awk &#x27;&#123;print $2&#125;&#x27;` &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">                echo &quot;Start Face_Web&quot;</span><br><span class="line">                /home/ubuntu/workspace/Server_Face/build/Face_Web &amp;</span><br><span class="line">    fi</span><br><span class="line">    sleep 2</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
 <span id="more"></span>
-
 <p>有些没有看懂，不过没关系不影响我使用，将Face_Web换成需要重连进程并填入进程所在路径，放在开机自启动就行了。</p>
 <h2 id="开机自启动"><a href="#开机自启动" class="headerlink" title="开机自启动"></a>开机自启动</h2><p>一般都是放在rc.local中来实现的，这种方法是开机后系统运行时候所执行的，其用户权限是root。所以进程生成文件都是root用户下的，一般用户需要sudo才能对这些文件进行操作。还有一种是修改用户目录下的.profile文件，这种方式进程生成文件都是改用户所有。但是这种方式是每次切换到该用户自启动脚本都会被执行，为了偷懒(实际是不会修改profile文件)我放在了rc.local中。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /home/nvidia/worksapce/DarkWeb/cwf/chang_ip</span><br><span class="line">echo &quot;nvidia&quot; | sudo -S ./set_net</span><br><span class="line">cd /home/nvidia/workspace/Server_Face_2/build/</span><br><span class="line">sh runBat.sh</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
-
 <p>在exit 0 上面加上脚本所在目录并运行脚本。</p>
 
     </div>
@@ -318,6 +319,12 @@
   
 
 
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"per_page":true,"engine":"mathjax","tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
 
 
 
