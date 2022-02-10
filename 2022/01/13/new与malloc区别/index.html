@@ -19,19 +19,19 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="new与malloc有什么区别1. 申请的内存所在位置new操作符从自由存储区（free store）上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用fre">
+<meta name="description" content="new与malloc有什么区别1. 申请的内存所在位置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="new与malloc">
 <meta property="og:url" content="http://example.com/2022/01/13/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/index.html">
 <meta property="og:site_name" content="YC-BLOG">
-<meta property="og:description" content="new与malloc有什么区别1. 申请的内存所在位置new操作符从自由存储区（free store）上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用fre">
+<meta property="og:description" content="new与malloc有什么区别1. 申请的内存所在位置">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004300406-962244228.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119004332328-1197338727.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119011445828-2003774083.jpg">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/610439/201601/610439-20160119012007484-749179736.jpg">
 <meta property="article:published_time" content="2022-01-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-27T10:07:03.477Z">
+<meta property="article:modified_time" content="2022-02-10T02:44:05.579Z">
 <meta property="article:author" content="yc">
 <meta property="article:tag" content="c++">
 <meta name="twitter:card" content="summary">
@@ -226,7 +226,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-01-27 18:07:03" itemprop="dateModified" datetime="2022-01-27T18:07:03+08:00">2022-01-27</time>
+      <time title="修改时间：2022-02-10 10:44:05" itemprop="dateModified" datetime="2022-02-10T10:44:05+08:00">2022-02-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -248,9 +248,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="new与malloc有什么区别"><a href="#new与malloc有什么区别" class="headerlink" title="new与malloc有什么区别"></a>new与malloc有什么区别</h1><h2 id="1-申请的内存所在位置"><a href="#1-申请的内存所在位置" class="headerlink" title="1. 申请的内存所在位置"></a>1. 申请的内存所在位置</h2><p>new操作符从<strong>自由存储区（free store）</strong>上为对象动态分配内存空间，而malloc函数从<strong>堆</strong>上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用free释放已分配的对应内存。</p>
+        <h1 id="new与malloc有什么区别"><a href="#new与malloc有什么区别" class="headerlink" title="new与malloc有什么区别"></a>new与malloc有什么区别</h1><h2 id="1-申请的内存所在位置"><a href="#1-申请的内存所在位置" class="headerlink" title="1. 申请的内存所在位置"></a>1. 申请的内存所在位置</h2><span id="more"></span>
+<p>new操作符从<strong>自由存储区（free store）</strong>上为对象动态分配内存空间，而malloc函数从<strong>堆</strong>上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用free释放已分配的对应内存。</p>
 <p>那么自由存储区是否能够是堆（问题等价于new是否能在堆上动态分配内存），这取决于operator new 的实现细节。<strong>自由存储区不仅可以是堆，还可以是静态存储区，这都看operator new在哪里为对象分配内存</strong> 。</p>
-<span id="more"></span>
 <h2 id="2-返回类型安全性"><a href="#2-返回类型安全性" class="headerlink" title="2.返回类型安全性"></a>2.返回类型安全性</h2><p>new操作符内存分配成功时，返回的是对象类型的指针，类型严格与对象匹配，无须进行类型转换，故new是符合<strong>类型安全</strong>性的操作符。而malloc内存分配成功则是返回void <em> ，需要通过强制类型转换将void</em>指针转换成我们需要的类型。</p>
 <h2 id="3-内存分配失败时的返回值"><a href="#3-内存分配失败时的返回值" class="headerlink" title="3.内存分配失败时的返回值"></a>3.内存分配失败时的返回值</h2><p>new内存分配失败时，会抛出bac_alloc异常，它<strong>不会返回NULL</strong>；malloc分配内存失败时返回NULL。<br>在使用C语言时，我们习惯在malloc分配内存后判断分配是否成功： </p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *a  = (<span class="keyword">int</span> *)<span class="built_in">malloc</span> ( <span class="built_in"><span class="keyword">sizeof</span></span> (<span class="keyword">int</span> ));</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">NULL</span> == a)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

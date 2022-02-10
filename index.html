@@ -295,9 +295,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-01-29 14:01:40 / 修改时间：14:03:05" itemprop="dateCreated datePublished" datetime="2022-01-29T14:01:40+08:00">2022-01-29</time>
+      <time title="创建时间：2022-01-29 14:01:40" itemprop="dateCreated datePublished" datetime="2022-01-29T14:01:40+08:00">2022-01-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-02-10 10:43:32" itemprop="dateModified" datetime="2022-02-10T10:43:32+08:00">2022-02-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -324,8 +330,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>有时候在做项目时候需要一直保存文件，但是由于内存容量有限，需要及时删除旧文件。以下脚本实现功能：当内存到达一定值时，删除文件时间属性较早的文件。个人完全不会shell脚本编程。都是一点点问度娘的，如有不对之处敬请谅解。</p>
-<h2 id="读取指定文件时间属性。"><a href="#读取指定文件时间属性。" class="headerlink" title="读取指定文件时间属性。"></a>读取指定文件时间属性。</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /var/www/Public/ParamsSet/</span><br><span class="line">creat_time=`stat -c %Y setting4.txt`;now=`date +%s`;</span><br><span class="line">echo $creat_time</span><br><span class="line">echo $now </span><br></pre></td></tr></table></figure>
-<p>其中creat_time为文件最后一次改动的时间(1970到现在，单位s)，now为现在系统时间。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/01/29/%E8%87%AA%E5%8A%A8%E5%88%A0%E9%99%A4%E6%97%A7%E6%96%87%E4%BB%B6/#more" rel="contents">
@@ -467,9 +471,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-01-29 13:50:25 / 修改时间：13:54:17" itemprop="dateCreated datePublished" datetime="2022-01-29T13:50:25+08:00">2022-01-29</time>
+      <time title="创建时间：2022-01-29 13:50:25" itemprop="dateCreated datePublished" datetime="2022-01-29T13:50:25+08:00">2022-01-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-02-10 10:43:59" itemprop="dateModified" datetime="2022-02-10T10:43:59+08:00">2022-02-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -496,7 +506,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>﻿在做东西时候，有时候代码有些小bug，进程会崩掉。所以进程需要一个自动重启功能。</p>
-<h2 id="实现进程自动重连。"><a href="#实现进程自动重连。" class="headerlink" title="实现进程自动重连。"></a>实现进程自动重连。</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line">kill -KILL `ps -aux | grep &#x27;Face_Web&#x27; | awk &#x27;&#123;print $2&#125;&#x27;` &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">while [ 1 ]; do</span><br><span class="line">    appexe1=`ps -A | grep &#x27;Face_Web&#x27; | wc -l`</span><br><span class="line">    if [ $appexe1 -eq 0 ]; then</span><br><span class="line">                kill -KILL `ps -aux | grep &#x27;Face_Web&#x27; | awk &#x27;&#123;print $2&#125;&#x27;` &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">                echo &quot;Start Face_Web&quot;</span><br><span class="line">                /home/ubuntu/workspace/Server_Face/build/Face_Web &amp;</span><br><span class="line">    fi</span><br><span class="line">    sleep 2</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/01/29/Linux%E8%BF%9B%E7%A8%8B%E8%87%AA%E5%8A%A8%E9%87%8D%E8%BF%9E/#more" rel="contents">
@@ -819,7 +828,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-01-28 09:58:09" itemprop="dateModified" datetime="2022-01-28T09:58:09+08:00">2022-01-28</time>
+      <time title="修改时间：2022-02-10 10:43:50" itemprop="dateModified" datetime="2022-02-10T10:43:50+08:00">2022-02-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -842,12 +851,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="c"><a href="#c" class="headerlink" title="c++"></a>c++</h1><p>1.C语言在内存中一共分为如下几个区域，分别是：</p>
-<ul>
-<li>内存栈区： 存放局部变量名</li>
-<li>内存堆区： 存放new或者malloc出来的对象</li>
-<li>常数区： 存放局部变量或者全局变量的值</li>
-<li>静态区： 用于存放全局变量或者静态变量</li>
-</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/01/13/C++/#more" rel="contents">
@@ -912,7 +915,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-01-29 10:31:29" itemprop="dateModified" datetime="2022-01-29T10:31:29+08:00">2022-01-29</time>
+      <time title="修改时间：2022-02-10 10:44:16" itemprop="dateModified" datetime="2022-02-10T10:44:16+08:00">2022-02-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -935,11 +938,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="UFLD-Custom-Datasets标注训练"><a href="#UFLD-Custom-Datasets标注训练" class="headerlink" title="UFLD Custom Datasets标注训练"></a>UFLD Custom Datasets标注训练</h1><h2 id="1-数据集标注"><a href="#1-数据集标注" class="headerlink" title="1.数据集标注"></a>1.数据集标注</h2><p>​    使用labelme-Linux进行标注，标注规则(保持CULane数据集格式)包括一下几个部分：</p>
-<ul>
-<li>最多标注4条车道线(如果只需要用到当前车道，只需要标注当前2条车道即可)</li>
-<li>尽量标注清楚、准确，原则上至少需要标注3个点</li>
-<li>标注上车道线的类别</li>
-</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/01/13/UFLD%20Custom%20Datasets%E6%A0%87%E6%B3%A8%E8%AE%AD%E7%BB%83/#more" rel="contents">
@@ -1004,7 +1002,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-01-27 18:07:03" itemprop="dateModified" datetime="2022-01-27T18:07:03+08:00">2022-01-27</time>
+      <time title="修改时间：2022-02-10 10:44:05" itemprop="dateModified" datetime="2022-02-10T10:44:05+08:00">2022-02-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1026,8 +1024,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="new与malloc有什么区别"><a href="#new与malloc有什么区别" class="headerlink" title="new与malloc有什么区别"></a>new与malloc有什么区别</h1><h2 id="1-申请的内存所在位置"><a href="#1-申请的内存所在位置" class="headerlink" title="1. 申请的内存所在位置"></a>1. 申请的内存所在位置</h2><p>new操作符从<strong>自由存储区（free store）</strong>上为对象动态分配内存空间，而malloc函数从<strong>堆</strong>上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用free释放已分配的对应内存。</p>
-<p>那么自由存储区是否能够是堆（问题等价于new是否能在堆上动态分配内存），这取决于operator new 的实现细节。<strong>自由存储区不仅可以是堆，还可以是静态存储区，这都看operator new在哪里为对象分配内存</strong> 。</p>
+          <h1 id="new与malloc有什么区别"><a href="#new与malloc有什么区别" class="headerlink" title="new与malloc有什么区别"></a>new与malloc有什么区别</h1><h2 id="1-申请的内存所在位置"><a href="#1-申请的内存所在位置" class="headerlink" title="1. 申请的内存所在位置"></a>1. 申请的内存所在位置</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/01/13/new%E4%B8%8Emalloc%E5%8C%BA%E5%88%AB/#more" rel="contents">
