@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="1 kitti数据sensor​    kitti数据集采集sensor包括：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kitti数据集">
+<meta property="og:url" content="http://example.com/2022/02/23/kitti%E6%95%B0%E6%8D%AE%E9%9B%86/index.html">
+<meta property="og:site_name" content="YC-BLOG">
+<meta property="og:description" content="1 kitti数据sensor​    kitti数据集采集sensor包括：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.cvlibs.net/datasets/kitti/images/passat_sensors.jpg">
+<meta property="og:image" content="https://journals.sagepub.com/na101/home/literatum/publisher/sage/journals/content/ijra/2013/ijra_32_11/0278364913491297/20161123/images/medium/10.1177_0278364913491297-fig3.gif">
+<meta property="article:published_time" content="2022-02-23T09:40:44.000Z">
+<meta property="article:modified_time" content="2022-02-23T10:30:24.041Z">
+<meta property="article:author" content="yc">
+<meta property="article:tag" content="3D目标检测">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.cvlibs.net/datasets/kitti/images/passat_sensors.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/02/23/kitti%E6%95%B0%E6%8D%AE%E9%9B%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/02/23/kitti%E6%95%B0%E6%8D%AE%E9%9B%86/","path":"2022/02/23/kitti数据集/","title":"kitti数据集"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>kitti数据集 | YC-BLOG</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">YC-BLOG</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">ProjectViwer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-archive fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+        <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-kitti%E6%95%B0%E6%8D%AEsensor"><span class="nav-number">1.</span> <span class="nav-text">1 kitti数据sensor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-calib-txt%E6%A0%87%E5%AE%9A%E6%96%87%E4%BB%B6%E8%A7%A3%E8%AF%BB"><span class="nav-number">2.</span> <span class="nav-text">2 calib.txt标定文件解读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-label-txt%E6%96%87%E4%BB%B6%E8%A7%A3%E8%AF%BB"><span class="nav-number">3.</span> <span class="nav-text">3 label.txt文件解读</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yc</p>
+  <div class="site-description" itemprop="description">记录工作</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/23/kitti%E6%95%B0%E6%8D%AE%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yc">
+      <meta itemprop="description" content="记录工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YC-BLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          kitti数据集
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-02-23 17:40:44 / 修改时间：18:30:24" itemprop="dateCreated datePublished" datetime="2022-02-23T17:40:44+08:00">2022-02-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6/" itemprop="url" rel="index"><span itemprop="name">无人驾驶</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6/%E6%95%B0%E6%8D%AE%E9%9B%86/" itemprop="url" rel="index"><span itemprop="name">数据集</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="1-kitti数据sensor"><a href="#1-kitti数据sensor" class="headerlink" title="1 kitti数据sensor"></a>1 kitti数据sensor</h2><p>​    kitti数据集采集sensor包括：</p>
+<span id="more"></span>
+<ul>
+<li>2个灰度相机：1.4百万像素：Point Grey Flea 2（FL2-14S3M-C）</li>
+<li>2个彩色相机：1.4百万像素：Point Grey Flea 2（FL2-14S3C-C）</li>
+<li>一个Velodyne64线3D激光雷达：Velodyne HDL-64E</li>
+<li>4个光学镜头：4-8毫米，Edmund Optics NT59-917</li>
+<li>1个GPS导航系统：OXTS RT 3003</li>
+</ul>
+<p><img src="http://www.cvlibs.net/datasets/kitti/images/passat_sensors.jpg" alt="img"></p>
+<p><img src="https://journals.sagepub.com/na101/home/literatum/publisher/sage/journals/content/ijra/2013/ijra_32_11/0278364913491297/20161123/images/medium/10.1177_0278364913491297-fig3.gif" alt="                         figure                     "></p>
+<h2 id="2-calib-txt标定文件解读"><a href="#2-calib-txt标定文件解读" class="headerlink" title="2 calib.txt标定文件解读"></a>2 calib.txt标定文件解读</h2><p>​    一个标定的txt文件如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">P0: 7.215377000000e+02 0.000000000000e+00 6.095593000000e+02 0.000000000000e+00 0.000000000000e+00 7.215377000000e+02 1.728540000000e+02 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00  </span><br><span class="line">P1: 7.215377000000e+02 0.000000000000e+00 6.095593000000e+02 -3.875744000000e+02 0.000000000000e+00 7.215377000000e+02 1.728540000000e+02 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00  </span><br><span class="line">P2: 7.070493000000e+02 0.000000000000e+00 6.040814000000e+02 4.575831000000e+01 0.000000000000e+00 7.070493000000e+02 1.805066000000e+02 -3.454157000000e-01 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 4.981016000000e-03  </span><br><span class="line">P3: 7.215377000000e+02 0.000000000000e+00 6.095593000000e+02 -3.395242000000e+02 0.000000000000e+00 7.215377000000e+02 1.728540000000e+02 2.199936000000e+00 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 2.729905000000e-03  </span><br><span class="line">R0_rect: 9.999128000000e-01 1.009263000000e-02 -8.511932000000e-03 -1.012729000000e-02 9.999406000000e-01 -4.037671000000e-03 8.470675000000e-03 4.123522000000e-03 9.999556000000e-01  </span><br><span class="line">Tr_velo_to_cam: 6.927964000000e-03 -9.999722000000e-01 -2.757829000000e-03 -2.457729000000e-02 -1.162982000000e-03 2.749836000000e-03 -9.999955000000e-01 -6.127237000000e-02 9.999753000000e-01 6.931141000000e-03 -1.143899000000e-03 -3.321029000000e-01  </span><br><span class="line">Tr_imu_to_velo: 9.999976000000e-01 7.553071000000e-04 -2.035826000000e-03 -8.086759000000e-01 -7.854027000000e-04 9.998898000000e-01 -1.482298000000e-02 3.195559000000e-01 2.024406000000e-03 1.482454000000e-02 9.998881000000e-01 -7.997231000000e-01</span><br></pre></td></tr></table></figure>
+<p>0,1,2,3代表相机编号：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>相机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>左边灰度相机</td>
+</tr>
+<tr>
+<td>1</td>
+<td>右边灰度相机</td>
+</tr>
+<tr>
+<td>2</td>
+<td>左边彩色相机</td>
+</tr>
+<tr>
+<td>3</td>
+<td>右边彩色相机</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>$P_0,P_1,P_2,P_3$分别对应相机的内参矩阵，大小为 $3X4$:</p>
+<script type="math/tex; mode=display">
+K=\begin{pmatrix}
+  f^i_u && 0 && c^i_u && -f^i_ub^i_x \\
+  0 && f^i_v && c^i_v && 0 \\
+  0 && 0 && 1 && 0 \\
+\end{pmatrix}</script><p>其中</p>
+<ul>
+<li>$f^i_u,f^i_v$：相机焦距</li>
+<li>$c^i_u,c^i_v$：为中心点坐标</li>
+<li>$b^i_x$：第i个摄像头到0号摄像头的距离偏移(x方向)</li>
+<li>R0_rect：0号相机的修正矩阵</li>
+<li>Tr_velo_to_cam：velodyne到camera的矩阵 大小为3x4，包含了旋转矩阵 R 和 平移向量 t</li>
+<li><code>Tr_imu_to_vel</code> 为imu到camera的矩阵 大小为3x4，包含了旋转矩阵 R 和 平移向量 t</li>
+</ul>
+<h2 id="3-label-txt文件解读"><a href="#3-label-txt文件解读" class="headerlink" title="3 label.txt文件解读"></a>3 label.txt文件解读</h2><p>​    一个标定的txt文件如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Truck 0.00 0 -1.57 599.41 156.40 629.75 189.25 2.85 2.63 12.34 0.47 1.49 69.44 -1.56  </span><br><span class="line">Car 0.00 0 1.85 387.63 181.54 423.81 203.12 1.67 1.87 3.69 -16.53 2.39 58.49 1.57  </span><br><span class="line">Cyclist 0.00 3 -1.65 676.60 163.95 688.98 193.93 1.86 0.60 2.02 4.59 1.32 45.84 -1.55  </span><br><span class="line">DontCare -1 -1 -10 503.89 169.71 590.61 190.13 -1 -1 -1 -1000 -1000 -1000 -10  </span><br><span class="line">DontCare -1 -1 -10 511.35 174.96 527.81 187.45 -1 -1 -1 -1000 -1000 -1000 -10  </span><br><span class="line">DontCare -1 -1 -10 532.37 176.35 542.68 185.27 -1 -1 -1 -1000 -1000 -1000 -10  </span><br><span class="line">DontCare -1 -1 -10 559.62 175.83 575.40 183.15 -1 -1 -1 -1000 -1000 -1000 -10</span><br></pre></td></tr></table></figure>
+<p>以 car 为例：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Car</td>
+<td>类别</td>
+</tr>
+<tr>
+<td>0.00</td>
+<td>截断程度，0.00表示无截断</td>
+</tr>
+<tr>
+<td>0</td>
+<td>遮挡率，0表示无遮挡</td>
+</tr>
+<tr>
+<td>1.85</td>
+<td>alpha([-pi,pi])观察角度</td>
+</tr>
+<tr>
+<td>387.63，181.54</td>
+<td>2DBoundingbox左上角的坐标</td>
+</tr>
+<tr>
+<td>423.81，203.12</td>
+<td>2DBoundingbox右下角的坐标</td>
+</tr>
+<tr>
+<td>1.67，1.87，3.69</td>
+<td>3DBoundingbox的height,width,length</td>
+</tr>
+<tr>
+<td>-16.53，2.39，58.49</td>
+<td>3DBoundingbox在Camera相机的坐标</td>
+</tr>
+<tr>
+<td>1.57</td>
+<td>相对于Y轴的旋转角度</td>
+</tr>
+<tr>
+<td></td>
+<td>最后一个在训练中没用</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code>DontCare</code> 划分出了不感兴趣的区域，区域内的物体不会被label。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/3D%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" rel="tag"># 3D目标检测</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/02/09/%E7%9B%B8%E6%9C%BA%E6%A8%A1%E5%9E%8B/" rel="prev" title="相机模型">
+                  <i class="fa fa-chevron-left"></i> 相机模型
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yc</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"per_page":true,"engine":"mathjax","tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
