@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="​    机器学习分类模型常用评价指标有Accuracy, Precision, Recall和F1-score，而回归模型最常用指标有MAE和RMSE。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分类模型评价指标">
+<meta property="og:url" content="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/index.html">
+<meta property="og:site_name" content="YC-BLOG">
+<meta property="og:description" content="​    机器学习分类模型常用评价指标有Accuracy, Precision, Recall和F1-score，而回归模型最常用指标有MAE和RMSE。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/二分类混淆矩阵.png">
+<meta property="og:image" content="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/分布.jpg">
+<meta property="og:image" content="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/多分类混淆矩阵.jpg">
+<meta property="og:image" content="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/多分类分布.png">
+<meta property="og:image" content="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/分布.jpg">
+<meta property="og:image" content="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/ROC-PR曲线.png">
+<meta property="article:published_time" content="2022-03-11T01:29:52.000Z">
+<meta property="article:modified_time" content="2022-03-14T06:36:11.940Z">
+<meta property="article:author" content="yc">
+<meta property="article:tag" content="分类">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/二分类混淆矩阵.png">
+
+
+<link rel="canonical" href="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/","path":"2022/03/11/分类模型评价指标/","title":"分类模型评价指标"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>分类模型评价指标 | YC-BLOG</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">YC-BLOG</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">ProjectViwer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-archive fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+        <li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">0.引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BA%8C%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%B8%B8%E8%A7%81%E6%8C%87%E6%A0%87"><span class="nav-number">2.</span> <span class="nav-text">1.二分类模型的常见指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%A4%9A%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%B8%B8%E8%A7%81%E6%8C%87%E6%A0%87"><span class="nav-number">3.</span> <span class="nav-text">2.多分类模型的常见指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-ROC%E5%92%8CPR%E6%9B%B2%E7%BA%BF"><span class="nav-number">4.</span> <span class="nav-text">3.ROC和PR曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%9B%B2%E7%BA%BF%E5%AE%9A%E4%B9%89"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 曲线定义</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yc</p>
+  <div class="site-description" itemprop="description">记录工作</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yc">
+      <meta itemprop="description" content="记录工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YC-BLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分类模型评价指标
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-11 09:29:52" itemprop="dateCreated datePublished" datetime="2022-03-11T09:29:52+08:00">2022-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-14 14:36:11" itemprop="dateModified" datetime="2022-03-14T14:36:11+08:00">2022-03-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>​    机器学习分类模型常用评价指标有Accuracy, Precision, Recall和F1-score，而回归模型最常用指标有MAE和RMSE。</p>
+<span id="more"></span>
+<h2 id="0-引言"><a href="#0-引言" class="headerlink" title="0.引言"></a>0.引言</h2><p>​    在探讨这些问题前，让我们先回顾一下最常见的指标Accuracy到底有哪些不足。Accuracy是分类问题中最常用的指标，它计算了分类正确的预测数与总预测数的比值。但是，<strong>对于不平衡数据集而言，Accuracy并不是一个好指标</strong>。为啥？</p>
+<p>​    假设我们有100张图片，其中91张图片是「狗」，5张是「猫」，4张是「猪」，我们希望训练一个三分类器，能正确识别图片里动物的类别。其中，狗这个类别就是大多数类 (majority class)。当大多数类中样本（狗）的数量远超过其他类别（猫、猪）时，如果采用Accuracy来评估分类器的好坏，那么即便模型性能很差 (如无论输入什么图片，都预测为「狗」)，也可以得到较高的Accuracy Score（如91%）。此时，虽然Accuracy Score很高，但是意义不大。<strong>当数据异常不平衡时，Accuracy评估方法的缺陷尤为显著。</strong></p>
+<p>​    因此，我们需要引入Precision （精准度），Recall （召回率）和F1-score评估指标。考虑到二分类和多分类模型中，评估指标的计算方法<strong>略有不同</strong>，我们将其分开讨论。</p>
+<h2 id="1-二分类模型的常见指标"><a href="#1-二分类模型的常见指标" class="headerlink" title="1.二分类模型的常见指标"></a>1.二分类模型的常见指标</h2><p>​    在二分类问题中，假设该样本一共有两种类别：Positive和Negative。当分类器预测结束，可以有以下几种结果TP、TN、FP、FN。其中第一个字母表示分类器识别结果是否正确，正确用T(True)表示，错误用F(False)表示。我们可以绘制出混淆矩阵（confusion matrix）。结果如下：</p>
+<p><img src="/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/二分类混淆矩阵.png" alt="img"></p>
+<ul>
+<li>True Positive (TP): 分类器识别正确，分类器认为该样本为正样本(把正样本成功预测为正)。</li>
+<li>True Negative (TN)：分类器识别正确，分类器认为该样本为负样本(把负样本成功预测为负)。</li>
+<li>False Positive (FP)：分类器识别结果错误，分类器认为该样本是正样本；所以实际上该样本是负样本(把负样本错误地预测为正)。</li>
+<li>False Negative (FN)：分类器识别结果错误，分类器认为该样本是负样本；所以实际上该样本是正样本(把正样本错误的预测为负)。</li>
+</ul>
+<p>在二分类模型中，Accuracy，Precision，Recall计算可以由下图表示，其中实心点为正样本，空心点为负样本，浅灰色和粉色区域点为识别错误的样本。</p>
+<p>具体可以由下图分布：</p>
+<p><img src="/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/分布.jpg" alt="img"></p>
+<p>根据分布图，可以做出以下定义：</p>
+<ul>
+<li><p>Accuracy(准确率)：正确预测样本数占总样本比例</p>
+<script type="math/tex; mode=display">
+Accuracy=\frac{TP+FN}{TP+TN+FP+FN}</script></li>
+<li><p>Precision(精准率)：正确识别的正样本数占所有识别为正样本数的比率</p>
+<script type="math/tex; mode=display">
+Precision = \frac{TP}{TP+FP}</script></li>
+<li><p>Recall(召回率)：识别为正样本数占所有正样本数比率</p>
+<script type="math/tex; mode=display">
+Recall = \frac{TP}{TP+FN}</script></li>
+<li><p>F1 score：</p>
+<script type="math/tex; mode=display">
+F1-score = \frac{2*Precision*Recall}{Precision+Recall}</script><p>举个例子，一个医院新开发了一套癌症AI诊断系统，想评估其性能好坏。我们把病人得了癌症定义为Positive，没得癌症定义为Negative。那么， 到底该用什么指标进行评估呢？</p>
+<p>如用Precision对系统进行评估，那么其回答的问题就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在诊断为癌症的一堆人中，到底有多少人真得了癌症？</span><br></pre></td></tr></table></figure>
+<p>如用Recall对系统进行评估，那么其回答的问题就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在一堆得了癌症的病人中，到底有多少人能被成功检测出癌症？</span><br></pre></td></tr></table></figure>
+<p>如用Accuracy对系统进行评估，那么其回答的问题就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在一堆癌症病人和正常人中，有多少人被系统给出了正确诊断结果（患癌或没患癌）？</span><br></pre></td></tr></table></figure>
+<p><strong>OK，那啥时候应该更注重Recall而不是Precision呢？</strong></p>
+<blockquote>
+<p>当False Negative (FN)的成本代价很高 (后果很严重)，希望尽量避免产生FN时，应该着重考虑提高Recall指标。</p>
+</blockquote>
+<p>在上述例子里，False Negative是得了癌症的病人没有被诊断出癌症，这种情况是最应该避免的。我们宁可把健康人误诊为癌症 (FP)，也不能让真正患病的人检测不出癌症 (FN) 而耽误治疗离世。在这里，癌症诊断系统的目标是：尽可能提高Recall值，哪怕牺牲一部分Precision。</p>
+<p><strong>那啥时候应该更注重Precision而不是Recall呢？</strong></p>
+<blockquote>
+<p>当False Positive (FP)的成本代价很高 (后果很严重)时，即期望尽量避免产生FP时，应该着重考虑提高Precision指标。</p>
+</blockquote>
+<p>以垃圾邮件屏蔽系统为例，垃圾邮件为Positive，正常邮件为Negative，False Positive是把正常邮件识别为垃圾邮件，这种情况是最应该避免的（你能容忍一封重要工作邮件直接进了垃圾箱，被不知不觉删除吗？）。我们宁可把垃圾邮件标记为正常邮件 (FN)，也不能让正常邮件直接进垃圾箱 (FP)。在这里，垃圾邮件屏蔽系统的目标是：尽可能提高Precision值，哪怕牺牲一部分recall。</p>
+<p>而F1-score是Precision和Recall两者的综合。</p>
+<p>举个更有意思的例子（我拍脑袋想出来的，绝对原创哈），假设检察机关想将罪犯捉拿归案，需要对所有人群进行分析，以判断某人犯了罪（Positive），还是没犯罪（Negative）。显然，检察机关希望不漏掉一个罪人（提高recall），也不错怪一个好人（提高precision），所以就需要同时权衡recall和precision两个指标。</p>
+<p>尤其在上个世纪，中国司法体制会更偏向Recall，即「天网恢恢，疏而不漏，任何罪犯都插翅难飞」。而西方司法系统会更偏向Precision，即「绝不冤枉一个好人，但是难免有罪犯成为漏网之鱼，逍遥法外」。到底是哪种更好呢？显然，极端并不可取。Precision和Recall都应该越高越好，也就是F1应该越高越好。</p>
+</li>
+</ul>
+<h2 id="2-多分类模型的常见指标"><a href="#2-多分类模型的常见指标" class="headerlink" title="2.多分类模型的常见指标"></a>2.多分类模型的常见指标</h2><p>在多分类（大于两个类）问题中，假设我们要开发一个动物识别系统，来区分输入图片是猫，狗还是猪。给定分类器一堆动物图片，产生了如下结果混淆矩阵。</p>
+<p><img src="/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/多分类混淆矩阵.jpg" alt="img"></p>
+<p>在混淆矩阵中，正确的分类样本（Actual label = Predicted label）分布在左上到右下的对角线上。其中，Accuracy的定义为分类正确（对角线上）的样本数与总样本数的比值。<strong>Accuracy度量的是全局样本预测情况。而对于Precision和Recall而言，每个类都需要单独计算其Precision和Recall</strong>。</p>
+<p><img src="/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/多分类分布.png" alt="img"></p>
+<p>比如，对类别「猪」而言，其Precision和Recall分别为:</p>
+<script type="math/tex; mode=display">
+Precision = \frac{TP}{TP+FP}=\frac{20}{20+50}= \frac{2}{7} \\
+Recall = \frac{TP}{TP+FN}=\frac{20}{20+10}= \frac{2}3</script><p>可以计算所有类别的Percision和Recall，得到如下：</p>
+<script type="math/tex; mode=display">
+P_{cat} = \frac{8}{15}， P_{dog} = \frac{17}{23}, P_{pig} = \frac{2}{7}\\
+R_{cat} = \frac{4}{7}， R_{dog} = \frac{17}{32}, R_{pig} = \frac{2}{3}</script><p>如果想评估该识别系统的总体功能，必须考虑猫、狗、猪三个类别的综合预测性能。那么，<strong>到底要怎么综合这三个类别的Precision呢？</strong>是简单加起来做平均吗？通常来说， 我们有如下几种解决方案</p>
+<ul>
+<li><strong>Macro-average方法</strong></li>
+</ul>
+<p>该方法最简单，直接将不同类别的评估指标（Precision/ Recall/ F1-score）加起来求平均，给所有类别相同的权重。<strong>该方法能够平等看待每个类别，但是它的值会受类别不平衡影响。</strong></p>
+<script type="math/tex; mode=display">
+Macro-Precision=\frac{P_{cat}+P_{dog}+P_{pig}}{3}=0.5194\\
+Macro-Recall = \frac{R_{cat}+R_{dog}+R_{pig}}{3}=0.5898</script><ul>
+<li><strong>Weighted-average方法</strong></li>
+</ul>
+<p>该方法给不同类别不同权重（权重根据该类别的真实分布比例确定），每个类别乘权重后再进行相加。<strong>该方法考虑了类别不平衡情况，它的值更容易受到常见类（majority class）的影响</strong>。</p>
+<p>假设样本分布可以由一下表示：</p>
+<script type="math/tex; mode=display">
+W_{cat}:W_{dog}:W_{pig} = N_{cat}:N_{dog}:N_{pig}=\frac{7}{26}:\frac{16}{26}:\frac{3}{26}</script><p>其中W表示权重，N表示样本个数。</p>
+<p>则：</p>
+<script type="math/tex; mode=display">
+Weighted-Precision=P_{cat}*W_{cat} + P_{dog}*W_{dog} + P_{pig}*W_{pig}=0.6314\\
+Weighted-Recall = R_{cat}*W_{cat} + R_{dog}*W_{dog} + R_{pig}*W_{pig}=0.5577</script><ul>
+<li><strong>Micro-average方法</strong></li>
+</ul>
+<p>该方法把每个类别的TP, FP, FN先相加之后，在根据二分类的公式进行计算。</p>
+<script type="math/tex; mode=display">
+Micro-Precision= \frac{TP_{cat}+TP_{dog}+TP_{pig}}{TP_{cat}+TP_{dog}+TP_{pig}+FP_{cat}+FP_{dog}+FP_{pig}}=0.5577\\
+Micro-Recall = \frac{TP_{cat}+TP_{dog}+TP_{pig}}{TP_{cat}+TP_{dog}+TP_{pig}+FN_{cat}+FN_{dog}+FN_{pig}}=0.5577</script><p>其中，特别有意思的是，<strong>Micro-precision和Micro-recall竟然始终相同！</strong>这是为啥呢？</p>
+<p>这是因为在某一类中的False Positive样本，一定是其他某类别的False Negative样本。听起来有点抽象？举个例子，比如说系统错把「狗」预测成「猫」，那么对于狗而言，其错误类型就是False Negative，对于猫而言，其错误类型就是False Positive。于此同时，Micro-precision和Micro-recall的数值都等于Accuracy，因为它们计算了对角线样本数和总样本数的比值，总结就是：</p>
+<script type="math/tex; mode=display">
+Micro-Precision=Micro-Recall=Micro-F1 Score = Accuacy</script><h2 id="3-ROC和PR曲线"><a href="#3-ROC和PR曲线" class="headerlink" title="3.ROC和PR曲线"></a>3.ROC和PR曲线</h2><h3 id="3-1-曲线定义"><a href="#3-1-曲线定义" class="headerlink" title="3.1 曲线定义"></a>3.1 曲线定义</h3><p>根据1中提到的，对于二分类模型，所有样本分布可以用混淆矩阵来表示，具体如下：</p>
+<p><img src="/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/分布.jpg" alt="img"></p>
+<p>根据上图，可以得到：</p>
+<ul>
+<li>实际正样本个数：TP+FN(实际为正样本预测为正样本+实际为正样本预测为负样本)</li>
+<li>预测正样本个数：TP+FP(实际为正样本预测为正样本+实际为负样本预测为正样本)</li>
+<li><p>实际负样本个数：TN+FP(实际为负样本预测为负样本+实际为负样本预测为正样本)</p>
+</li>
+<li><p>预测负样本个数：TN+FN(实际为负样本预测为负样本+实际为正样本预测为负样本)</p>
+</li>
+</ul>
+<p>假阳率(False Positive Rate)，指所有负样本中，被预测为正样本的概率：</p>
+<script type="math/tex; mode=display">
+FPR=\frac{FP}{FP+TN}</script><p>真阳率(True Positive Rate)，定义与召回率(Recall)相同，指所有正样本中，正确预测为正样本的概率：</p>
+<script type="math/tex; mode=display">
+TPR(Recall)=\frac{TP}{TP+FN}</script><p>对于一个二分类问题，往往要设定一个 threshold，当预测值大于这个 threshold 时预测为正样本，小于这个 threshold 时预测为负样本。如果以 Recall 为横轴，Precision 为纵轴，那么设定一个 threshold 时，便可在坐标轴上画出一个点，设定多个 threshold 则可以画出一条曲线，这条曲线便是 PR 曲线。</p>
+<p><strong>PR 曲线是以 Recall 为横轴，Precision 为纵轴；而 ROC曲线则是以 FPR 为横轴，TPR 为纵轴。而AUC就是ROC曲线与横轴组成的面积</strong>，如下如所示：</p>
+<p><img src="/2022/03/11/%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/ROC-PR曲线.png" alt="img"></p>
+<p>图 (a) 和 (b) 是在样本正负比例为 1:1 下的 ROC 曲线和PR 曲线，图(c) 和 (d) 是在样本正负比例为 1:100 下的 ROC 曲线和PR 曲线。</p>
+<p>从结果来看：<strong>当测试集中的正负样本的分布变化的时候，ROC曲线能够保持不变。</strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%88%86%E7%B1%BB/" rel="tag"># 分类</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/02/23/kitti%E6%95%B0%E6%8D%AE%E9%9B%86/" rel="prev" title="kitti数据集">
+                  <i class="fa fa-chevron-left"></i> kitti数据集
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yc</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"per_page":true,"engine":"mathjax","tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
